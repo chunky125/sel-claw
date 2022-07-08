@@ -87,15 +87,11 @@ pub struct ResolvedSeL4Source {
     pub kernel_dir: PathBuf,
     pub tools_dir: PathBuf,
     pub util_libs_dir: PathBuf,
+    pub musl_libc_dir:PathBuf,
 }
 
-/// dest_dir: Where downloaded source will be placed, if necessary
-pub fn resolve_sel4_sources(
-    source: &model::SeL4Sources,
-    dest_dir: &Path,
-    is_verbose: bool,
-) -> Result<ResolvedSeL4Source, String> {
-    fn resolve_repo_source(
+/// Resolve a repo source
+fn resolve_repo_source(
         source: &model::RepoSource,
         name_hint: &str,
         dest_dir: &Path,
@@ -140,10 +136,18 @@ pub fn resolve_sel4_sources(
             }
         }
     }
-    Ok(ResolvedSeL4Source {
+
+/// dest_dir: Where downloaded source will be placed, if necessary
+pub fn resolve_sel4_sources(
+    source: &model::SeL4Sources,
+    dest_dir: &Path,
+    is_verbose: bool,
+) -> Result<ResolvedSeL4Source, String> {
+      Ok(ResolvedSeL4Source {
         kernel_dir: resolve_repo_source(&source.kernel, "kernel", dest_dir, is_verbose)?,
         tools_dir: resolve_repo_source(&source.tools, "seL4_tools", dest_dir, is_verbose)?,
         util_libs_dir: resolve_repo_source(&source.util_libs, "util_libs", dest_dir, is_verbose)?,
+        musl_libc_dir: resolve_repo_source(&source.musl_libc, "musl_libc", dest_dir, is_verbose)?,
     })
 }
 
@@ -164,12 +168,14 @@ pub enum SeL4BuildOutcome {
     },
 }
 
-/// Return the cmake build dir
+/// 
+/// Build seL4
 pub fn build_sel4(
     out_dir: &Path,
     kernel_dir: &Path,
     tools_dir: &Path,
     util_libs_dir: &Path,
+    musl_libc_dir: &Path,
     config: &model::contextualized::Contextualized,
     build_mode: SeL4BuildMode,
 ) -> SeL4BuildOutcome {
@@ -182,7 +188,7 @@ pub fn build_sel4(
 	    },
 	    SeL4BuildMode::Kernel => {
 		panic!("Kernel build not supported when build_dir is provided");
-	    }
+	    },
 	}
     }
 
@@ -201,6 +207,10 @@ pub fn build_sel4(
         kernel_dir.join("gcc.cmake").display().to_string(),
     );
     cmake_opts.insert("KERNEL_PATH".to_string(), kernel_dir.display().to_string());
+
+    cmake_opts.insert("CMAKE_MODULE_PATH".to_string(), 
+                      format!("{}/cmake-tool/helpers;{}",tools_dir.display().to_string(),
+                      musl_libc_dir.display().to_string()));
 
     if build_mode == SeL4BuildMode::Lib {
         cmake_opts.insert(
@@ -250,7 +260,8 @@ pub fn build_sel4(
         .arg("Ninja")
         .arg(".")
         .current_dir(&build_dir)
-        .env("SEL4_TOOLS_DIR", tools_dir);
+        .env("SEL4_TOOLS_DIR", tools_dir)
+        .env("MUSL_LIBC_DIR", musl_libc_dir);
 
     if build_mode == SeL4BuildMode::Kernel {
         let rti = PathBuf::from(
@@ -268,7 +279,9 @@ pub fn build_sel4(
         cmake
             .env("ROOT_TASK_PATH", rti)
             .env("UTIL_LIBS_SOURCE_PATH", util_libs_dir)
-            .env("UTIL_LIBS_BIN_PATH", &util_libs_bin_dir);
+            .env("UTIL_LIBS_BIN_PATH", &util_libs_bin_dir)
+            .env("MUSL_LIBC_DIR", musl_libc_dir);
+
     }
 
     cmake.stdout(Stdio::inherit()).stderr(Stdio::inherit());
@@ -296,9 +309,9 @@ pub fn build_sel4(
         .get("KernelSel4Arch")
         .expect("KernelSel4Arch missing but required as a sel4 config option");
     // TODO - should we enforce that this value matches the resolved config platform name?
-    if cmake_opts.get("KernelPlatform").is_some() {
-        panic!("Explicitly supplying a KernelPlatform property interferes with the inner workings of the seL4 cmake build")
-    }
+//    if cmake_opts.get("KernelPlatform").is_some() {
+  //      panic!("Explicitly supplying a KernelPlatform property interferes with the inner workings of the seL4 cmake build")
+    //}
     let kernel_platform = cmake_opts.get("KernelX86Platform").unwrap_or_else(|| {
         cmake_opts.get("KernelARMPlatform").expect(
             "KernelARMPlatform or KernelX86Platform missing but required as a sel4 config option",

@@ -452,6 +452,7 @@ fn main() {
         kernel_dir,
         tools_dir,
         util_libs_dir,
+        musl_libc_dir,
     } = resolve_sel4_sources(
         &config.sel4_sources,
         &out_dir.join("sel4_source"),
@@ -464,6 +465,7 @@ fn main() {
         &kernel_dir,
         &tools_dir,
         &util_libs_dir,
+        &musl_libc_dir,
         &config,
         SeL4BuildMode::Lib,
     ) {

@@ -250,6 +250,7 @@ fn build_kernel(
         kernel_dir,
         tools_dir,
         util_libs_dir,
+        musl_libc_dir,
     } = resolve_sel4_sources(
         &config.sel4_sources,
         &out_dir.join("source"),
@@ -297,6 +298,7 @@ fn build_kernel(
             &kernel_dir,
             &tools_dir,
             &util_libs_dir,
+            &musl_libc_dir,
             &config,
             SeL4BuildMode::Kernel,
         ),

@@ -1,7 +1,8 @@
 [sel4]
-kernel = { git = "https://github.com/seL4/seL4" , rev = "4d0f02c029560cae0e8d93727eb17d58bcecc2ac" }
-tools = { git = "https://github.com/seL4/seL4_tools" , rev = "f3b4bef672b92858c139787bc6fd5124e6022d26" }
-util_libs  = { git = "https://github.com/seL4/util_libs" , rev = "98aaebe56c66d46576485216f8c4626ed76a3757" }
+kernel = { git = "https://github.com/seL4/seL4" , branch = "master" }
+tools = { git = "https://github.com/seL4/seL4_tools" , branch = "master" }
+util_libs  = { git = "https://github.com/seL4/util_libs" , branch = "master" }
+musl_libc = { git = "https://github.com/seL4/musllibc.git", branch = "sel4" }
 
 [sel4.config]
 KernelRetypeFanOutLimit = 16384
@@ -10,19 +11,25 @@ KernelRetypeFanOutLimit = 16384
 
 [sel4.config.x86_64]
 KernelArch = 'x86'
+KernelArchX86 = true
 KernelX86Sel4Arch = 'x86_64'
+KernelSel4ArchX86_64 = true
 KernelSel4Arch = 'x86_64'
+KernelWordSize = 64
 # KernelIOMMU = true
 
 [sel4.config.aarch32]
 KernelArch = 'arm'
+KernelArchARM = true
 KernelArmSel4Arch = 'aarch32'
 KernelSel4Arch = 'aarch32'
+KernelWordSize = 32
 # KernelArmSMMU = true
 # KernelArmHypervisorSupport = true
 
 [sel4.config.aarch64]
 KernelArch = 'arm'
+KernelArchARM = true
 KernelArmSel4Arch = 'aarch64'
 KernelSel4Arch = 'aarch64'
 

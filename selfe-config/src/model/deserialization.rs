@@ -19,6 +19,7 @@ pub(crate) struct RawSeL4 {
     pub(crate) kernel: TomlTable,
     pub(crate) tools: TomlTable,
     pub(crate) util_libs: TomlTable,
+    pub(crate) musl_libc: TomlTable,
     pub(crate) build_dir: Option<PathBuf>,
     pub(crate) config: BTreeMap<String, TomlValue>,
 }
@@ -84,6 +85,7 @@ impl FromStr for Raw {
             let kernel = parse_required_table(table, "kernel")?;
             let tools = parse_required_table(table, "tools")?;
             let util_libs = parse_required_table(table, "util_libs")?;
+            let musl_libc = parse_required_table(table, "musl_libc")?;
             let build_dir = parse_optional_string(table, "build_dir")?.map(PathBuf::from);
 
             let mut config = BTreeMap::new();
@@ -104,6 +106,7 @@ impl FromStr for Raw {
                 kernel,
                 tools,
                 util_libs,
+                musl_libc,
                 build_dir,
                 config,
             })
@@ -267,6 +270,7 @@ impl FromStr for full::Full {
             kernel: parse_repo_source(&sel4.kernel)?,
             tools: parse_repo_source(&sel4.tools)?,
             util_libs: parse_repo_source(&sel4.util_libs)?,
+            musl_libc: parse_repo_source(&sel4.musl_libc)?,
         };
 
         Ok(full::Full {

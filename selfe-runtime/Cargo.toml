@@ -1,6 +1,6 @@
 [package]
 name = "selfe-runtime"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Russell Mull <russell@auxon.io>"]
 edition = "2018"
 description = "A tiny runtime library, required for any process which uses libsel4.a"
@@ -9,7 +9,7 @@ license-file = "../LICENSE"
 resolver = "2"
 
 [dependencies]
-selfe-sys = "0.1"
+selfe-sys = "0.1.2"
 
 [build-dependencies]
 selfe-config = "0.2"

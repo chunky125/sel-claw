@@ -1,10 +1,11 @@
 [package]
 name = "selfe-sys"
-version = "0.1.1"
+version = "0.1.2"
 authors = [
     "Russell Mull <russell@auxon.io>",
     "Zachary Pierce <zack@auxon.io>",
-    "Jon Lamb <jon@auxon.io>"]
+    "Jon Lamb <jon@auxon.io>",
+    "Chris Plant <chris@monkeyircd.org>"]
 edition = "2018"
 readme = "README.md"
 description = "A generated thin wrapper around libsel4.a, with supporting subcrates"
@@ -19,7 +20,7 @@ name = "selfe_sys"
 
 [build-dependencies]
 bindgen = { version = "0.52", default-features = false }
-selfe-config = "0.2"
+selfe-config = { path = "selfe-config" }
 quote = "0.6"
 toml = "0.5"
 proc-macro2 = "0.4"

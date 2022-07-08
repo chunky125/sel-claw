@@ -242,6 +242,7 @@ pub struct SeL4Sources {
     pub kernel: RepoSource,
     pub tools: RepoSource,
     pub util_libs: RepoSource,
+    pub musl_libc: RepoSource,
 }
 
 impl SeL4Sources {
@@ -250,6 +251,7 @@ impl SeL4Sources {
             kernel: self.kernel.relative_to(base_dir),
             tools: self.tools.relative_to(base_dir),
             util_libs: self.util_libs.relative_to(base_dir),
+            musl_libc: self.musl_libc.relative_to(base_dir)
         }
     }
 }
@@ -516,6 +518,7 @@ mod tests {
                         kernel: RepoSource::LocalPath(PathBuf::from(".")),
                         tools: RepoSource::LocalPath(PathBuf::from(".")),
                         util_libs: RepoSource::LocalPath(PathBuf::from(".")),
+                        musl_libc: RepoSource::LocalPath(PathBuf::from(".")),
                     },
 		    build_dir: None,
                     config: Default::default(),
