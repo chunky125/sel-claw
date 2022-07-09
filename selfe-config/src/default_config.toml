@@ -6,6 +6,7 @@ musl_libc = { git = "https://github.com/seL4/musllibc.git", branch = "sel4" }
 
 [sel4.config]
 KernelRetypeFanOutLimit = 16384
+KernelVerificationBuild = false
 
 # sel4_arch configuration sets
 
