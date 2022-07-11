@@ -79,6 +79,7 @@ fn gen_bindings(
     let mut bindings = Builder::default()
         .header("src/bindgen_wrapper.h")
         .use_core()
+        .prepend_enum_name(true) 
         .ctypes_prefix("ctypes");
 
     for i in BLACKLIST_ITEMS {
