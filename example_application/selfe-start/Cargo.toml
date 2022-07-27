@@ -20,7 +20,7 @@ selfe-sys = "0.1.2"
 selfe-runtime = "0.1"
 
 [build-dependencies]
-selfe-config = "0.2"
+selfe-config = "0.2.2"
 
 [features]
 default = []

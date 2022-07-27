@@ -12,7 +12,7 @@ resolver = "2"
 selfe-sys = "0.1.2"
 
 [build-dependencies]
-selfe-config = "0.2"
+selfe-config = "0.2.2"
 
 [features]
 default = []

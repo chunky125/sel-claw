@@ -11,40 +11,32 @@ KernelVerificationBuild = false
 # sel4_arch configuration sets
 
 [sel4.config.x86_64]
-KernelArch = 'x86'
-KernelArchX86 = true
-KernelX86Sel4Arch = 'x86_64'
-KernelSel4ArchX86_64 = true
 KernelSel4Arch = 'x86_64'
 KernelWordSize = 64
 # KernelIOMMU = true
 
 [sel4.config.aarch32]
-KernelArch = 'arm'
-KernelArchARM = true
-KernelArmSel4Arch = 'aarch32'
 KernelSel4Arch = 'aarch32'
 KernelWordSize = 32
 # KernelArmSMMU = true
 # KernelArmHypervisorSupport = true
 
 [sel4.config.aarch64]
-KernelArch = 'arm'
-KernelArchARM = true
-KernelArmSel4Arch = 'aarch64'
 KernelSel4Arch = 'aarch64'
+KernelWordSize = 64
+KernelSel4ArchArmHyp = true
 
 # platform configuration sets
 
 [sel4.config.pc99]
-KernelX86Platform = 'pc99'
+KernelPlatform = 'pc99'
 
 [sel4.config.sabre]
-KernelARMPlatform = 'imx6'
+KernelPlatform = 'imx6'
 KernelHaveFPU = true
 
 [sel4.config.tx1]
-KernelARMPlatform = 'tx1'
+KernelPlatform = 'tx1'
 KernelHaveFPU = true
 ElfloaderImage = 'binary'
 KernelArmHypervisorSupport = true

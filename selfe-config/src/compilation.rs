@@ -312,11 +312,10 @@ pub fn build_sel4(
 //    if cmake_opts.get("KernelPlatform").is_some() {
   //      panic!("Explicitly supplying a KernelPlatform property interferes with the inner workings of the seL4 cmake build")
     //}
-    let kernel_platform = cmake_opts.get("KernelX86Platform").unwrap_or_else(|| {
-        cmake_opts.get("KernelARMPlatform").expect(
-            "KernelARMPlatform or KernelX86Platform missing but required as a sel4 config option",
-        )
-    });
+    let kernel_platform = cmake_opts
+        .get("KernelPlatform")
+        .expect("KernelPlatform is missing but required to configure sel4");
+    
     match build_mode {
         SeL4BuildMode::Kernel => match config.context.arch {
             Arch::X86 => SeL4BuildOutcome::Kernel {

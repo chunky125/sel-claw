@@ -18,3 +18,9 @@ panic = "abort"
 
 [build-dependencies]
 selfe-arc = "0.1"
+
+[patch.crates-io]
+selfe-sys = { path = "../" }
+selfe-arc = { path = "../selfe-arc" }
+selfe-start = { path = "./selfe-start" }
+selfe-config = { path = "../selfe-config" }
