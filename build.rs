@@ -1,3 +1,6 @@
+extern crate cc;
+use cc::Build;
+
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -432,6 +435,36 @@ fn gen_tests(out_dir: &Path) {
     rustfmt(&out_file);
 }
 
+fn build_asm() {
+
+    // Compile the assembler instructions
+    let assembly_modules = [ "entry", "entry_rootserver", "registers" ];
+
+    // I want this to pull in a feature/config variable...
+    let mut define_stack_size = String::from("-DCONFIG_SEL4RUNTIME_ROOT_STACK=16384");
+
+    for module_name in assembly_modules {
+
+       let mut file_path = String::from("src/arch/aarch64/");
+       file_path.push_str(module_name);
+       file_path.push_str(".S");
+
+       Build::new()
+           .file(file_path)
+            .warnings(true)
+           .no_default_flags(false)
+           .flag(&define_stack_size)
+           .flag("-nostdlib")
+           .flag("-fno-builtin")
+           .flag("-nolibc")
+           .compiler("aarch64-linux-gnu-gcc")
+           .compile(module_name);
+    }
+
+    println!("cargo:rerun-if-change=src/arch/aarch64/entry");
+}
+
+
 fn main() {
     BuildEnv::request_reruns();
     let BuildEnv {
@@ -489,6 +522,10 @@ fn main() {
         config.context.sel4_arch,
         cargo_cfg_target_pointer_width,
     );
+
+
+    // Build ASM
+    build_asm();
 
     // Build the libc stubs
     if cfg!(feature = "nano_libc") {

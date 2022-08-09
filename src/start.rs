@@ -1,7 +1,6 @@
-extern crate selfe_sys;
 
-use selfe_sys::seL4_BootInfo;
-use selfe_sys::seL4_CapInitThreadTCB;
+use crate::bindings::seL4_BootInfo;
+use crate::bindings::seL4_CapInitThreadTCB;
 use crate::elf::ProgramHeader64 as ElfProgramHeader;
 use crate::elf::ProgramHeaderType as ElfProgramHeaderType;
 use crate::env::auxv::AuxVariable;

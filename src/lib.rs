@@ -1,52 +1,81 @@
+/* Copyright (c) 2015 The Robigalia Project Developers
+ * Licensed under the Apache License, Version 2.0
+ * <LICENSE-APACHE or
+ * http://www.apache.org/licenses/LICENSE-2.0> or the MIT
+ * license <LICENSE-MIT or http://opensource.org/licenses/MIT>,
+ * at your option. All files in the project carrying such
+ * notice may not be copied, modified, or distributed except
+ * according to those terms.
+ */
+
 #![no_std]
-#![allow(non_upper_case_globals)]
-#![allow(non_camel_case_types)]
-#![allow(non_snake_case)]
-#![allow(dead_code)]
+#![no_main]
+#![feature(lang_items, core_intrinsics, naked_functions, thread_local)]
 
-// Allow std in tests
-#[cfg(test)]
-#[macro_use]
-extern crate std;
+/// seL4 Types & Bindings, types taken from selfe-sys, with rust-bingen
+/// used to generate bindings from libsel4
+mod bindings;
 
-mod compile_time_assertions;
+/// ELF Headers and types
+mod elf;
 
-type seL4_CPtr = usize;
-type seL4_Word = usize;
-type seL4_Int8 = i8;
-type seL4_Int16 = i16;
-type seL4_Int32 = i32;
-type seL4_Int64 = i64;
-type seL4_Uint8 = u8;
-type seL4_Uint16 = u16;
-type seL4_Uint32 = u32;
-type seL4_Uint64 = u64;
+/// Thread environment
+pub mod env;
 
-pub const seL4_WordBits: usize = core::mem::size_of::<usize>() * 8;
+/// Debugging Utilities
+pub mod debug;
 
-#[cfg(any(target_arch = "arm", target_arch = "x86"))]
-mod ctypes {
-    pub type c_char = i8;
-    pub type c_uint = u32;
-    pub type c_int = i32;
-    pub type c_ulong = u32;
-}
+/// Startup functions
+mod start;
 
-#[cfg(any(target_arch = "aarch64", target_arch = "x86_64"))]
-pub mod ctypes {
-    pub type c_char = i8;
-    pub type c_uint = u32;
-    pub type c_int = i32;
-    pub type c_ulong = u64;
-}
+#[cfg(feature = "panic_handler")]
+mod panic;
 
-// bindgen generated tests, https://github.com/rust-lang/rust-bindgen/issues/1651
-#[allow(deref_nullptr)]
-mod bindings {
-    use super::*;
-    include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
-}
+
+use debug::DebugOutHandle;
+use core::fmt::Write;
+use core::panic::PanicInfo;
+use elf::ProgramHeader64 as ElfProgramHeader;
+use elf::ProgramHeaderType as ElfProgramHeaderType;
+
 pub use bindings::*;
 
-#[cfg(test)]
-include!(concat!(env!("OUT_DIR"), "/generated_tests.rs"));
+#[allow(unused)]
+pub fn debug_panic_handler(info: &PanicInfo) -> ! {
+    let _res = writeln!(DebugOutHandle, "*** Panic: {:#?}", info);
+
+    unsafe {
+        core::intrinsics::abort();
+    }
+}
+
+#[lang = "eh_personality"]
+#[cfg(not(test))]
+pub fn eh_personality() {
+    core::intrinsics::abort();
+}
+
+/// This should never be called!
+#[lang = "start"]
+#[cfg(not(test))]
+pub fn lang_start<T: Termination + 'static>(
+    main: fn() -> T,
+    _argc: isize,
+    _argv: *const *const u8,
+) -> isize {
+    main();
+    0
+}
+
+#[lang = "termination"]
+#[cfg(not(test))]
+pub trait Termination {
+    fn report(self) -> i32;
+}
+
+#[cfg(not(test))]
+impl Termination for () {
+    fn report(self) -> i32 {
+        0
+    }
+}

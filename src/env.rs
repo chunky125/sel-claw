@@ -1,8 +1,8 @@
 pub mod auxv;
 mod tls;
 
-use selfe_sys::seL4_BootInfo;
-use selfe_sys::seL4_IPCBuffer;
+pub use bindings::{seL4_BootInfo, seL4_IPCBuffer, seL4_TCB_Suspend, seL4_CapInitThreadTCB};
+
 use self::auxv::AuxVariable;
 use crate::elf::ProgramHeader64 as ElfProgramHeader;
 use crate::elf::ProgramHeaderType as ElfProgramHeaderType;

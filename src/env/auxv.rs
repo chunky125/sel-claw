@@ -1,6 +1,6 @@
 use elf::ProgramHeader64 as ElfProgramHeader;
-use selfe_sys::seL4_BootInfo;
-use selfe_sys::seL4_IPCBuffer;
+use bindings::seL4_BootInfo;
+use bindings::seL4_IPCBuffer;
 
 /// Not a full implementation for now, just the ones we need
 #[repr(u32)]

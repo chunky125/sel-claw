@@ -6,8 +6,7 @@ edition = "2018"
 resolver = "2"
 
 [dependencies]
-selfe-start = { path = "selfe-start", features = ["panic_handler"] }
-selfe-sys = "0.1"
+sel-claw = { path = "../", features = ["panic_handler", "nano_libc"] }
 selfe-arc = { version = "0.1", default-features = false }
 
 [profile.dev]
@@ -20,7 +19,6 @@ panic = "abort"
 selfe-arc = "0.1"
 
 [patch.crates-io]
-selfe-sys = { path = "../" }
 selfe-arc = { path = "../selfe-arc" }
-selfe-start = { path = "./selfe-start" }
+sel-claw = { path = "../" }
 selfe-config = { path = "../selfe-config" }

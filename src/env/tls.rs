@@ -1,6 +1,6 @@
 use env::MIN_ALIGN_BYTES;
 use crate::elf::ProgramHeader64 as ElfProgramHeader;
-use selfe_sys::seL4_IPCBuffer;
+use bindings::seL4_IPCBuffer;
 // :use selfe_sys::__sel4_ipc_buffer;
 
 use core::convert::TryInto;

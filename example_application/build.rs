@@ -4,5 +4,5 @@ fn main() {
         std::path::Path::new("data_file.txt"),
     )]);
 
-    println!("cargo:rustc-link-arg=-Tselfe-start/src/tls_rootserver.lds");
+    println!("cargo:rustc-link-arg=-T../src/tls_rootserver.lds");
 }

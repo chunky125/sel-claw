@@ -1,7 +1,7 @@
 /// Compile-time checks to confirm that the generated API meets our human-identified expectations.
 /// These checks help identify if the underlying seL4 build or bindings generation step have
 /// gone awry.
-use crate::*;
+use crate::bindings::*;
 
 #[allow(dead_code)]
 #[doc(hidden)]
