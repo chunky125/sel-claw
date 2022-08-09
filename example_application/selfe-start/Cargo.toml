@@ -17,11 +17,17 @@ resolver = "2"
 
 [dependencies]
 selfe-sys = "0.1.2"
-selfe-runtime = "0.1"
 
 [build-dependencies]
 selfe-config = "0.2.2"
+cc = "1.0"
 
 [features]
 default = []
-panic_handler = ["selfe-runtime/panic_handler"]
+panic_handler = []
+
+[patch.crates-io]
+selfe-sys = { path = "../../" }
+selfe-arc = { path = "../../selfe-arc" }
+selfe-config = { path = "../../selfe-config" }
+

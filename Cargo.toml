@@ -8,8 +8,8 @@ authors = [
     "Chris Plant <chris@monkeyircd.org>"]
 edition = "2018"
 readme = "README.md"
-description = "A generated thin wrapper around libsel4.a, with supporting subcrates"
-repository = "https://github.com/auxoncorp/selfe-sys"
+description = "A rust runtime for seL4, based on selfe-sys."
+repository = "https://github.com/chunky125/sel-claw"
 license-file = "LICENSE"
 resolver = "2"
 

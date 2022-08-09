@@ -1,14 +1,19 @@
 #![no_std]
+#![feature(thread_local)]
 
 use core::fmt::Write;
 use selfe_arc;
-use selfe_start::{self, DebugOutHandle};
+use selfe_start::debug::DebugOutHandle;
+use selfe_start::env::bootinfo;
 use selfe_sys::{seL4_BootInfo, seL4_CapInitThreadTCB, seL4_TCB_Suspend};
 
 extern "C" {
     static _selfe_arc_data_start: u8;
     static _selfe_arc_data_end: usize;
 }
+
+#[thread_local]
+pub static mut VAR: u64 = 42;
 
 fn main() {
     #[cfg(target_arch = "aarch64")]
@@ -20,7 +25,8 @@ fn main() {
 
     writeln!(DebugOutHandle, "\n\nHello {} world!\n\n", arch).unwrap();
 
-    let bootinfo: &'static seL4_BootInfo = unsafe { &*selfe_start::BOOTINFO };
+    unsafe {
+        let bootinfo: &'static seL4_BootInfo = selfe_start::env::bootinfo();
     let num_nodes = bootinfo.numNodes; // Pull out a reference to resolve packed-struct misalignment risk
     writeln!(
         DebugOutHandle,
@@ -28,6 +34,8 @@ fn main() {
         num_nodes
     )
     .unwrap();
+
+    }
 
     let archive_slice: &[u8] = unsafe {
         core::slice::from_raw_parts(
