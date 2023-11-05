@@ -31,7 +31,7 @@ selfe is the build tool for rust seL4 projects provided by sel-claw.  At this mo
 it must be installed carefully so as to ensure that the correct version is installed 
 rather than the selfe-sys package provided by Auxon corp.  
 
-    cargo install path_to_selfe-config --bin selfe --features bin --force
+    cargo install --path path_to_selfe-config --bin selfe --features bin --force
 
 To check that this has installed correctly, run 
 
