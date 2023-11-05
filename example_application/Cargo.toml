@@ -21,4 +21,4 @@ selfe-arc = "0.1"
 [patch.crates-io]
 selfe-arc = { path = "../selfe-arc" }
 sel-claw = { path = "../" }
-selfe-config = { path = "../selfe-config" }
+sel-claw-build = { path = "../sel-claw-build" }

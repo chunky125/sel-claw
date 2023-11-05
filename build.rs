@@ -10,12 +10,12 @@ extern crate toml;
 extern crate bindgen;
 use bindgen::Builder;
 
-extern crate selfe_config;
-use selfe_config::build_helpers::*;
-use selfe_config::compilation::{
+extern crate sel_claw_build;
+use sel_claw_build::build_helpers::*;
+use sel_claw_build::compilation::{
     build_sel4, resolve_sel4_sources, ResolvedSeL4Source, SeL4BuildMode, SeL4BuildOutcome,
 };
-use selfe_config::model::{self, Arch, SeL4Arch};
+use sel_claw_build::model::{self, Arch, SeL4Arch};
 
 extern crate proc_macro2;
 use proc_macro2::{Ident, Span, TokenStream};
@@ -532,7 +532,7 @@ fn main() {
 	let mut build = cc::Build::new();
 	build.file("src/nano_libc.c");
 	if config.sel4_config.get("KernelPrinting")
-            == Some(&selfe_config::model::SingleValue::Boolean(true))
+            == Some(&sel_claw_build::model::SingleValue::Boolean(true))
 	{
             build.define("KernelPrinting", None);
 	}
