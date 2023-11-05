@@ -13,6 +13,8 @@ platforms.
 
 ## Getting Started
 
+### Prequisites
+
 You'll need the following base packages:
 - C and C++ compilers for target architecture
 - Linking/Binary tools for target architecture
@@ -20,8 +22,22 @@ You'll need the following base packages:
 - Rust Build Environment
 - CMake
 - Device Tree Compiler (dtc)
-- Python with pyfdt, jinja2, six, future, ply modules
+- Python with pyfdt, jinja2, six, future, ply, libarchive, pyelftools modules
 - libxml2 tools (xmllint specifically)
+
+### Installing selfe build tool from selfe-config
+
+selfe is the build tool for rust seL4 projects provided by sel-claw.  At this moment 
+it must be installed carefully so as to ensure that the correct version is installed 
+rather than the selfe-sys package provided by Auxon corp.  
+
+    cargo install path_to_selfe-config --bin selfe --features bin --force
+
+To check that this has installed correctly, run 
+
+    selfe --version
+
+This should report the version as 0.2.2 or greater.
 
 ## Status
 
