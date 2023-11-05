@@ -25,19 +25,19 @@ You'll need the following base packages:
 - Python with pyfdt, jinja2, six, future, ply, libarchive, pyelftools modules
 - libxml2 tools (xmllint specifically)
 
-### Installing selfe build tool from selfe-config
+### How to build the example application
 
-selfe is the build tool for rust seL4 projects provided by sel-claw.  At this moment 
-it must be installed carefully so as to ensure that the correct version is installed 
-rather than the selfe-sys package provided by Auxon corp.  
+Get the source
 
-    cargo install --path path_to_selfe-config --bin selfe --features bin --force
+   git clone 
 
-To check that this has installed correctly, run 
+sel-claw-build is the build tool for rust seL4 projects provided by sel-claw, 
+it must be installed before compiling the example application.
 
-    selfe --version
+    
+    cargo install --path path_to_sel-claw-build --bin sel-claw-build --features bin --force
 
-This should report the version as 0.2.2 or greater.
+Then 
 
 ## Status
 
