@@ -29,15 +29,31 @@ You'll need the following base packages:
 
 Get the source
 
-   git clone 
+    git clone https://github.com/chunky125/sel-claw.git
 
-sel-claw-build is the build tool for rust seL4 projects provided by sel-claw, 
-it must be installed before compiling the example application.
+Change to the folder
 
-    
-    cargo install --path path_to_sel-claw-build --bin sel-claw-build --features bin --force
+    cd sel-claw
 
-Then 
+First install sel-claw-build.  This is the build tool for rust seL4 projects
+provided by sel-claw, it must be installed before compiling the example 
+application.
+
+    cd sel-claw-build 
+    cargo install --path . --bin sel-claw-build --features bin --force
+
+Then you can build the example application
+
+    cd ..
+    cd example-application
+    sel-claw-build build --platform virt --sel4_arch aarch64
+
+sel-claw-build will download the seL4 sources and compile the example application. 
+You can then simulate the new application using:
+
+    sel-claw-build simulate --platform virt --sel4_arch aarch64
+
+
 
 ## Status
 
