@@ -11,6 +11,18 @@ incorportates functionality found in selfe-start (sel4 startup), selfe-sys
 The primary development target is aarch64 on the various raspberry pi
 platforms.
 
+## Getting Started
+
+You'll need the following base packages:
+- C and C++ compilers for target architecture
+- Linking/Binary tools for target architecture
+- QEMU for target architecture
+- Rust Build Environment
+- CMake
+- Device Tree Compiler (dtc)
+- Python with pyfdt, jinja2, six, future, ply modules
+- libxml2 tools (xmllint specifically)
+
 ## Status
 
 Very scratchy!
