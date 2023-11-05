@@ -1,0 +1,71 @@
+[sel4]
+kernel = { git = "https://github.com/seL4/seL4" , branch = "master" }
+tools = { git = "https://github.com/seL4/seL4_tools" , branch = "master" }
+util_libs  = { git = "https://github.com/seL4/util_libs" , branch = "master" }
+musl_libc = { git = "https://github.com/seL4/musllibc.git", branch = "sel4" }
+
+[sel4.config]
+KernelRetypeFanOutLimit = 16384
+KernelVerificationBuild = false
+
+# sel4_arch configuration sets
+
+[sel4.config.x86_64]
+KernelSel4Arch = 'x86_64'
+KernelWordSize = 64
+# KernelIOMMU = true
+
+[sel4.config.aarch32]
+KernelSel4Arch = 'aarch32'
+KernelWordSize = 32
+# KernelArmSMMU = true
+# KernelArmHypervisorSupport = true
+
+[sel4.config.aarch64]
+KernelSel4Arch = 'aarch64'
+KernelWordSize = 64
+KernelSel4ArchArmHyp = true
+
+# platform configuration sets
+
+[sel4.config.pc99]
+KernelPlatform = 'pc99'
+
+[sel4.config.sabre]
+KernelPlatform = 'imx6'
+KernelHaveFPU = true
+
+[sel4.config.tx1]
+KernelPlatform = 'tx1'
+KernelHaveFPU = true
+ElfloaderImage = 'binary'
+KernelArmHypervisorSupport = true
+
+[sel4.config.virt]
+KernelARMPlatform = 'virt'
+KernelHaveFPU = true
+ElfloaderImage = 'elf'
+KernelArmHypervisorSupport = true
+
+# compilation-profile configuration sets
+
+[sel4.config.debug]
+KernelPrinting = true
+KernelDebugBuild = true
+
+[sel4.config.release]
+KernelPrinting = false
+KernelDebugBuild = false
+
+# build per platform details
+
+[build.pc99]
+
+[build.sabre]
+cross_compiler_prefix = "arm-linux-gnueabihf-"
+
+[build.tx1]
+cross_compiler_prefix = "aarch64-linux-gnu-"
+
+[build.virt]
+cross_compiler_prefix = "aarch64-linux-gnu-"
