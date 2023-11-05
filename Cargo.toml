@@ -18,7 +18,7 @@ resolver = "2"
 [dependencies]
 
 [build-dependencies]
-selfe-config = "0.2.2"
+sel-claw-build = "0.2.2"
 bindgen = { version = "0.52", default-features = false }
 cc = "1.0"
 toml = "0.5"
@@ -33,5 +33,5 @@ nano_libc = []
 
 [patch.crates-io]
 selfe-arc = { path = "/selfe-arc" }
-selfe-config = { path = "/selfe-config" }
+sel-claw-build = { path = "/sel-claw-build" }
 
