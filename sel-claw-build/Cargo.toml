@@ -1,0 +1,35 @@
+[package]
+name = "sel-claw-build"
+version = "0.2.2"
+authors = ["Russell Mull <russell@auxon.io>", "Zachary Pierce <zack@auxon.io>", "Chris Plant <chris@monkeyircd.org"]
+edition = "2018"
+readme = "README.md"
+description = "A seL4 build tool with configuration format, managed by a library"
+repository = "https://github.com/chunky/sel-claw"
+license-file = "../LICENSE"
+resolver = "2"
+
+[features]
+default = []
+bin = ["clap"]
+
+[lib]
+name = "sel_claw_build"
+path = "src/lib.rs"
+
+[[bin]]
+name = "sel-claw-build"
+path = "src/main.rs"
+doctest = false
+required-features = ["bin"]
+
+[dependencies]
+toml = "0.5"
+
+[dependencies.clap]
+version = "2.33.0"
+default-features = false
+optional = true
+
+[dev-dependencies]
+tempfile = "3"
